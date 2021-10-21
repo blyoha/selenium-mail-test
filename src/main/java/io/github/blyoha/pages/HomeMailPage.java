@@ -9,7 +9,7 @@ public class HomeMailPage extends TestBase {
     WebElement signIn;
 
     public LoginPage redirectToLoginPage() {
-        signIn = driver.findElement(By.xpath("//a[contains(span, 'Войти')]"));
+        signIn = driver.findElement(By.xpath("//a[contains(span, 'Р’РѕР№С‚Рё')]"));
         signIn.click();
         return new LoginPage();
     }
