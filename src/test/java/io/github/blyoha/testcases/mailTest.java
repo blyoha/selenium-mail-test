@@ -1,4 +1,4 @@
-package io.github.blyoha.testcases.testcases;
+package io.github.blyoha.testcases;
 
 import io.github.blyoha.pages.HomeMailPage;
 import org.testng.Assert;
@@ -27,13 +27,17 @@ public class mailTest extends TestBase {
         homeMailPage = new HomeMailPage();
 
         loginPage = homeMailPage.redirectToLoginPage();
-        Assert.assertEquals(loginPage.getLoginPageTitle(), "Авторизация", "Login page URL not matched");
+        Assert.assertEquals(loginPage.getLoginPageTitle(), "РђРІС‚РѕСЂРёР·Р°С†РёСЏ",
+                "Login page URL not matched");
 
         String  email = properties.getProperty("email"),
                 password = properties.getProperty("password");
 
         mailPage = loginPage.login(email, password);
         Assert.assertTrue(mailPage.validateMailPageTitle(), "Mail page URL not matched");
+
+        mailPage = mailPage.compose();
+        mailPage = mailPage.send();
     }
 
     @AfterTest
