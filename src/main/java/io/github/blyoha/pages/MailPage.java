@@ -20,6 +20,7 @@ public class MailPage extends TestBase {
     WebElement text;
     WebElement subject;
     WebElement filter;
+    WebElement logout;
 
     String letterQty;
     final String letterTheme= "Simbirsoft Тестовое задание";
@@ -56,6 +57,14 @@ public class MailPage extends TestBase {
         send.click();
 
         return this;
+    }
+
+    public HomeMailPage logout() {
+        driver.findElement(By.xpath("//a[@href='https://passport.yandex.ru']")).click();
+        logout = driver.findElement(By.xpath("//a[@aria-label='Выйти из аккаунта']"));
+        logout.click();
+
+        return new HomeMailPage();
     }
 
     public void countUnread() {

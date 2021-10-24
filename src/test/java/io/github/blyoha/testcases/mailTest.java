@@ -1,6 +1,5 @@
 package io.github.blyoha.testcases;
 
-import io.github.blyoha.pages.HomeMailPage;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -11,6 +10,7 @@ import java.net.MalformedURLException;
 import io.github.blyoha.base.TestBase;
 import io.github.blyoha.pages.MailPage;
 import io.github.blyoha.pages.LoginPage;
+import io.github.blyoha.pages.HomeMailPage;
 
 public class mailTest extends TestBase {
     HomeMailPage homeMailPage;
@@ -38,6 +38,8 @@ public class mailTest extends TestBase {
 
         mailPage = mailPage.compose();
         mailPage = mailPage.send();
+
+        homeMailPage = mailPage.logout();
     }
 
     @AfterTest
