@@ -14,4 +14,8 @@ public class HomeMailPage extends TestBase {
         return new LoginPage();
     }
 
+    public String validateHomeMailPageTitle() {
+        return driver.getTitle();
+    }
+
 }
