@@ -1,7 +1,7 @@
 # Testing Yandex.Mail
 Testing Yandex.Mail with Java, Selenium, TestNG, Gradle.
 
-##Table of content
+## Table of content
 
 ---
 - [General info](#general-info)
@@ -9,13 +9,13 @@ Testing Yandex.Mail with Java, Selenium, TestNG, Gradle.
 - [Installation](#installation)
 - [Setup](#setup)
 
-##General info
+## General info
 
 ---
 This project contains tests for Yandex.Mail.\
 Tests go through **home mail page**, **login page**, and **user mail page**.
 
-##Technologies
+## Technologies
 
 ---
 Project uses:
