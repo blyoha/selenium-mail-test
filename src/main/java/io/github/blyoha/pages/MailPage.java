@@ -1,58 +1,62 @@
 package io.github.blyoha.pages;
 
+import io.github.blyoha.base.TestBase;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-
-import io.github.blyoha.base.TestBase;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
 public class MailPage extends TestBase {
-    WebElement compose;
+    @FindBy(xpath = "//a[@href='#sent']")
+    WebElement mailFilter;
+
+    @FindBy(className = "textinput__control")
     WebElement mailSearch;
-    WebElement searchResults;
-    WebElement send;
-    WebElement to;
-    WebElement text;
-    WebElement subject;
-    WebElement filter;
+
+    @FindBy(xpath = "//a[@href='#compose']")
+    WebElement compose;
+
+    @FindBy(xpath = "//a[@aria-label='Выйти из аккаунта']")
     WebElement logout;
 
-    String letterQty;
-    final String letterTheme= "Simbirsoft Тестовое задание";
-    final String surname = "Фамилия";
+    @FindBy(name = "subject")
+    WebElement subject;
+
+    final String letterTheme = "Тестирование Яндекс почты (Java, Selenium, TestNG)";
+    final String filterText = "Simbirsoft Тестовое задание";
+
+    public MailPage() {
+        PageFactory.initElements(driver, this);
+    }
 
     public MailPage compose() {
-        filter = driver.findElement(By.xpath("//a[@href='#sent']"));
-        filter.click();
-        mailSearch = new WebDriverWait(driver, Duration.ofSeconds(2))
-                .until(ExpectedConditions.elementToBeClickable(By.className("textinput__control")));
-        mailSearch.sendKeys(letterTheme, Keys.ENTER);
+        mailFilter.click();
+        mailSearch.sendKeys(filterText, Keys.ENTER);
 
-        countUnread();
+        String unreadQty = countUnreadMail();
 
-        compose = driver.findElement(By.xpath("//a[@href='#compose']"));
         compose.click();
 
-        to = new WebDriverWait(driver, Duration.ofSeconds(2))
+        WebElement receiver = new WebDriverWait(driver, Duration.ofSeconds(2))
                 .until(ExpectedConditions.elementToBeClickable(By.className("composeYabbles")));
-        to.sendKeys(properties.getProperty("email"), Keys.ENTER);
+        receiver.sendKeys(properties.getProperty("email"), Keys.ENTER);
 
-        subject = driver.findElement(By.name("subject"));
-        subject.sendKeys(letterTheme + ". " + surname);
+        subject.sendKeys(letterTheme);
 
-        text = driver.findElement(By.xpath("//div[@role='textbox']"));
-        text.sendKeys(letterQty);
+        WebElement text = driver.findElement(By.xpath("//div[@role='textbox']"));
+        text.sendKeys(unreadQty);
 
         return this;
     }
 
     public MailPage send() {
-        send = driver.findElement(By.xpath("//span[contains(text(), 'Отправить')]" +
+        WebElement send = driver.findElement(By.xpath("//span[contains(text(), 'Отправить')]" +
                 "/ancestor::button[contains(@span, Button2-Text)]"));
         send.click();
 
@@ -61,22 +65,21 @@ public class MailPage extends TestBase {
 
     public HomeMailPage logout() {
         driver.findElement(By.xpath("//a[@href='https://passport.yandex.ru']")).click();
-        logout = driver.findElement(By.xpath("//a[@aria-label='Выйти из аккаунта']"));
         logout.click();
 
         return new HomeMailPage();
     }
 
-    public void countUnread() {
+    public String countUnreadMail() {
         try {
-            searchResults = new WebDriverWait(driver, Duration.ofSeconds(2))
+            WebElement searchResults = new WebDriverWait(driver, Duration.ofSeconds(2))
                     .until(ExpectedConditions.visibilityOfElementLocated(
                             By.className("mail-MessagesSearchInfo-Title_misc")));
             String[] qty = searchResults.getText().split(" ");
-            letterQty = qty[0];
-        }
-        catch (NoSuchElementException e) {
-            letterQty = "0";
+            return qty[0];
+
+        } catch (NoSuchElementException e) {
+            return "0";
         }
     }
 
