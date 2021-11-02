@@ -24,7 +24,7 @@ Project uses:
 ## Installation
 
 Clone repo:\
-`$ git clone https://github.com/blyoha/selenium-calculator-test`
+`$ git clone https://github.com/blyoha/selenium-mail-test`
 
 ## Setup
 
