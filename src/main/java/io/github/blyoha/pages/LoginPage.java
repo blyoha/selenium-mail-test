@@ -2,6 +2,7 @@ package io.github.blyoha.pages;
 
 import io.github.blyoha.base.TestBase;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -22,6 +23,7 @@ public class LoginPage extends TestBase {
         PageFactory.initElements(driver, this);
     }
 
+    @Step("Logging in...")
     public MailPage login(String username, String password) {
         emailField.sendKeys(username, Keys.ENTER);
 
@@ -33,6 +35,7 @@ public class LoginPage extends TestBase {
         return new MailPage();
     }
 
+    @Step("Validating login page title...")
     public String validateLoginPageTitle() {
         return driver.getTitle();
     }

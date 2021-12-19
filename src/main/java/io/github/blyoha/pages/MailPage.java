@@ -1,6 +1,8 @@
 package io.github.blyoha.pages;
 
 import io.github.blyoha.base.TestBase;
+
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -13,9 +15,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class MailPage extends TestBase {
-    @FindBy(xpath = "//a[@href='#sent']")
-    WebElement mailFilter;
-
     @FindBy(className = "textinput__control")
     WebElement mailSearch;
 
@@ -35,7 +34,11 @@ public class MailPage extends TestBase {
         PageFactory.initElements(driver, this);
     }
 
+    @Step("Composing...")
     public MailPage compose() {
+        WebElement mailFilter = new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='#sent']")));
+
         mailFilter.click();
         mailSearch.sendKeys(filterText, Keys.ENTER);
 
@@ -55,6 +58,7 @@ public class MailPage extends TestBase {
         return this;
     }
 
+    @Step("Sending...")
     public MailPage send() {
         WebElement send = driver.findElement(By.xpath("//span[contains(text(), 'Отправить')]" +
                 "/ancestor::button[contains(@span, Button2-Text)]"));
@@ -63,13 +67,15 @@ public class MailPage extends TestBase {
         return this;
     }
 
+    @Step("Logging out...")
     public HomeMailPage logout() {
-        driver.findElement(By.xpath("//a[@href='https://passport.yandex.ru']")).click();
+        driver.findElement(By.xpath("//a[@href='https://passport.yandex.com']")).click();
         logout.click();
 
         return new HomeMailPage();
     }
 
+    @Step("Counting unread mail...")
     public String countUnreadMail() {
         try {
             WebElement searchResults = new WebDriverWait(driver, Duration.ofSeconds(2))
@@ -83,6 +89,7 @@ public class MailPage extends TestBase {
         }
     }
 
+    @Step("Validating mail page title...")
     public boolean validateMailPageTitle() {
         return new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.titleContains("Яндекс.Почта"));

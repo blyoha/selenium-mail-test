@@ -1,5 +1,7 @@
 package io.github.blyoha.base;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -30,6 +32,8 @@ public class TestBase {
         }
     }
 
+    @Step("Initializing...")
+    @Description("Setting up Webdriver")
     public static void initialize() throws MalformedURLException {
         options = new ChromeOptions();
         options.addArguments("--lang=en");
