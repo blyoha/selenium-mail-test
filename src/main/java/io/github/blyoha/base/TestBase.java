@@ -2,6 +2,7 @@ package io.github.blyoha.base;
 
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -12,6 +13,7 @@ import java.net.URL;
 import java.util.Properties;
 
 public class TestBase {
+    public static ChromeOptions options;
     public static Properties properties;
     public static WebDriver driver;
     static DesiredCapabilities capabilities;
@@ -29,9 +31,13 @@ public class TestBase {
     }
 
     public static void initialize() throws MalformedURLException {
+        options = new ChromeOptions();
+        options.addArguments("--lang=en");
+
         capabilities = new DesiredCapabilities();
         capabilities.setBrowserName("chrome");
         capabilities.setPlatform(Platform.WIN10);
+        capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
         URL nodeURL = new URL("http://localhost:4444/wd/hub");
 
