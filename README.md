@@ -18,7 +18,8 @@ Also tests use chromedriver for **Chrome 96** and generate report using Allure.
 
 Project uses:
 - Java 16.0
-- Selenium + GRID 5
+- Selenium WebDriver
+- Selenium GRID 5
 - TestNG 7.4.0
 - Gradle
 - Allure Test Report 2.17
